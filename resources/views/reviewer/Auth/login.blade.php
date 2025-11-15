@@ -1,79 +1,79 @@
-@extends("layout.default")
-@section("title", "Login Reviewer")
-@section("content")
-    <section class="bg-gray-50 dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            @if (session()->has("success"))
-                <div>
-                    {{ session()->get("success") }}
-                </div>
-            @endif
-            @if (session()->has("error"))
-                <div>
-                    {{ session()->get("error") }}
-                </div>
-            @endif
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                Flowbite
-            </a>
-            <div
-                class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Sign in to your account
-                    </h1>
-                    <form class="space-y-4 md:space-y-6" method="POST" action="{{ route('reviewer.login.post') }}">
+@extends('layout.default')
+@section('title', 'Reviewer Sign In')
+
+@section('content')
+    @include('layout.reviewer.header_before')
+
+    <main class="container mx-auto py-8 px-4 md:px-0">
+        <div class="flex flex-col md:flex-row items-center">
+            <!-- Left Side -->
+            <div class="flex justify-center lg:block">
+                <img src="{{ asset('image/logo.svg') }}" alt="Liturtara Logo" class="max-w-full h-auto" />
+            </div>
+
+            <!-- Right Side -->
+            <div class="w-full md:w-1/2 mt-8 md:mt-0">
+                <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+                    {{-- alert --}}
+                    @include('layout.alert-auth')
+
+                    <div class="mb-6 flex justify-start">
+                        <img src="{{ asset('image/LogoLiturtara1.png') }}" alt="LITURTARA Logo" class="h-10">
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-navy mb-6">Log in Reviewer</h2>
+
+                    <form action="{{ route('reviewer.login.post') }}" method="POST">
                         @csrf
-                        <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                email</label>
-                            <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@company.com" required="">
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Email"
+                                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-navy">
                             @if ($errors->has('email'))
-                                <span class="text-danger">
-                                    {{ $errors->first('email') }}
-                                </span>
+                                <span class="text-red-500">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
-                        <div>
-                            <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
+
+                        <div class="mb-6 relative">
+                            <label for="password" class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" id="password" name="password" placeholder="Password"
+                                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-navy">
                             @if ($errors->has('password'))
-                                <span class="text-danger">
-                                    {{ $errors->first('password') }}
-                                </span>
+                                <span class="text-red-500">{{ $errors->first('password') }}</span>
                             @endif
                         </div>
-                        {{-- <div class="flex items-center justify-between">
-                            <div class="flex items-start">
-                                <div class="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" type="checkbox"
-                                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                                        required="">
-                                </div>
-                                <div class="ml-3 text-sm">
-                                    <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
-                                </div>
-                            </div>
-                            <a href="#" class="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Forgot
-                                password?</a>
-                        </div> --}}
-                        <button type="submit"
-                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
-                        <a href="{{ route("google.login", ["role" => "reviewer"]) }}"
-                            class="w-full bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-100 dark:hover:bg-gray-200 dark:focus:ring-blue-800">Sign in with google</a>
-                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Don’t have an account yet? <a href="{{ route("reviewer.register") }}"
-                                class="font-medium text-blue-600 hover:underline dark:text-blue-500">Sign up</a>
-                        </p>
+
+                        <button type="submit" class="w-full bg-navy text-white py-2 rounded-md font-medium">
+                            Log in
+                        </button>
                     </form>
+
+                    <div class="mt-6 text-center">
+                        <p class="text-gray-500">or</p>
+                    </div>
+
+                    <a href="{{ route('google.login', ['role' => 'reviewer']) }}"
+                        class="w-full mt-4 py-2 px-4 border border-gray-300 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-100">
+                        <img src="{{ asset('image/google.svg') }}" class="w-5 h-5" alt="Google"> 
+                        <span>Log in with Google</span>
+                    </a>
+
+                    <div class="mt-6 text-center">
+                        <a href="{{ route('password.request') }}" class="text-navy hover:underline">Forgot password?</a>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <p class="text-gray-700">
+                            New to Liturtara?
+                            <a href="{{ route('reviewer.register') }}" class="text-navy font-medium hover:underline">
+                                Sign up
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
+
+    @include('layout.footer')
 @endsection

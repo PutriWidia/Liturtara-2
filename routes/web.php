@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Request;
 use App\Http\Controllers\AuthController;
 use \App\Http\Controllers\TopupController;
+use \App\Http\Controllers\NewsController;
 // Case owner's controllers
 use App\Http\Controllers\CaseOwner\AuthController as CaseOwnerAuthController;
 use App\Http\Controllers\CaseOwner\CasesController as CaseOwnerCasesController;
@@ -18,11 +19,37 @@ use App\Http\Controllers\Talent\DashboardController as TalentDashboardController
 use App\Http\Controllers\Reviewer\AuthController as ReviewerAuthController;
 use App\Http\Controllers\Reviewer\DashboardController as ReviewerDashboardController;
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function(){
-    return view('landing-page');
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+
+// Route::get('/', function(){
+//     return view('landing-page');
+// });
+
+// Route publik
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::get('/news/detail/{id}', [NewsController::class, 'detail'])->name('news.new_details');
+
+
+// Route admin / CRUD
+Route::prefix('admin/news')->group(function () {
+    Route::get('/', [NewsController::class, 'show'])->name('news.show');
+    Route::get('/create', [NewsController::class, 'create'])->name('news.create');
+    Route::post('/store', [NewsController::class, 'store'])->name('news.store');
+    Route::get('/edit/{id}', [NewsController::class, 'edit'])->name('news.edit');
+    Route::put('/update/{id}', [NewsController::class, 'update'])->name('news.update');
+    Route::delete('/delete/{id}', [NewsController::class, 'destroy'])->name('news.destroy');
 });
 
+Route::get('/contact', function () {
+    return view('contactus');
+})->name('contact');
 
 // GROUP ROUTE CASEOWNER
 Route::prefix('caseowner')->name('caseowner.')->group(function() {
@@ -80,6 +107,11 @@ Route::prefix('reviewer')->name('reviewer.')->group(function() {
     });
 });
 
+Route::get('/privacy-policy', function () {
+    return view('privacypolicy');
+})->name('privacypolicy');
+
+
 // Global Logout
 Route::post('/logout', function(){
     Auth::logout();
@@ -88,6 +120,8 @@ Route::post('/logout', function(){
     return redirect('/');
 })->name('logout');
 
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'VerifyEmail'])
+->middleware(['signed'])->name('verification.verify');
 // email verification
 Route::middleware('auth')->group(function(){
     // email verification notice
@@ -95,8 +129,6 @@ Route::middleware('auth')->group(function(){
     ->name('verification.notice');
 
     // email verification handler
-    Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'VerifyEmail'])
-    ->middleware(['signed'])->name('verification.verify');
 
     // resending email verification
     Route::post('/email/verification-notification', [AuthController::class, "VerifyHandler"])
@@ -118,8 +150,10 @@ Route::middleware('guest')->group(function(){
 });
 
 // sign in using google account
-Route::get('auth/google/{role}', [AuthController::class, 'RedirectToGoogle'])->name('google.login');
-Route::get('auth/google-callback/', [AuthController::class, 'HandleGoogleCallback']);
+Route::middleware(['web'])->group(function () {
+    Route::get('google/{role}', [AuthController::class, 'RedirectToGoogle'])->name('google.login');
+    Route::get('auth/google/callback', [AuthController::class, 'HandleGoogleCallback']);
+});
 
 // token top-up
 Route::middleware(['auth', 'verified'])->group(function(){

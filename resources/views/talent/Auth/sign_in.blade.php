@@ -1,5 +1,6 @@
 @extends("layout.default")
 @section("title", "Talent Sign In")
+
 @section("content")
     @include("layout.talent.header_before")
     <!-- Main Content -->
@@ -67,7 +68,7 @@
                         <p class="text-gray-500">or</p>
                     </div>
 
-                    <a href="{{ route("google.login", ["role" => "talent"]) }}"
+                    <a href="{{ route('google.login', ['role' => 'talent']) }}"
                         class="w-full mt-4 py-2 px-4 border border-gray-300 rounded-md flex items-center justify-center space-x-2">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5">
                             <path fill="#FFC107"

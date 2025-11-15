@@ -7,11 +7,11 @@
 
     <!-- Menu Navigasi (Left Side) -->
     <div class="hidden md:flex flex-row  md:space-x-4 flex-grow ml-6 text-sm">
-        <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Home</a>
-        <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">About Us</a>
-        <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Service</a>
-        <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">News</a>
-        <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Our Contact</a>
+        <a href="{{ route('homepage') }}" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Home</a>
+        <a href="{{ route('about') }}" class="font-medium text-navy hover:text-blue-700 py-2 px-4">About Us</a>
+        <a href="{{ url('/#layanan') }}" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Service</a>
+        <a href="{{ url('/#berita') }}" class="font-medium text-navy hover:text-blue-700 py-2 px-4">News</a>
+        <a href="{{ url('/#contact') }}" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Our Contact</a>
     </div>
 
     <!-- Account Button (Right Side) -->

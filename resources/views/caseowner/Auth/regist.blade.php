@@ -1,5 +1,6 @@
 @extends('layout.default')
 @section('title', 'Regist as Case Owner')
+
 @section('content')
     <!-- Header -->
     @include("layout.caseowner.header_before")

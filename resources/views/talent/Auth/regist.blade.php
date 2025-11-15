@@ -1,5 +1,6 @@
 @extends('layout.default')
 @section('title', 'Regist as Talent')
+
 @section('content')
     <!-- Header -->
     @include("layout.talent.header_before")

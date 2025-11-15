@@ -1,103 +1,72 @@
 @extends('layout.default')
 @section('title', 'Register as Reviewer')
+
 @section('content')
-    <section class="bg-gray-50 dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            @if (session()->has("success"))
-                <div class="text-xl ">
-                    {{ session()->get("success") }}
-                </div>
-            @endif
-            @if (session()->has("error"))
-                <div class="text-xl">
-                    {{ session()->get("error") }}
-                </div>
-            @endif
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
-                Flowbite
-            </a>
-            <div
-                class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Create an account
-                    </h1>
-                    <form class="space-y-4 md:space-y-6" action="{{ route('reviewer.register.post') }}" method="POST">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                email</label>
-                            <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="name@company.com" required="">
-                            @if ($errors->has('email'))
-                                <span class="text-danger">
-                                    {{ $errors->first('email') }}
-                                </span>
-                            @endif
-                        </div>
-                        <div class="mb-4">
-                            <label for="phone_number"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                                Phone Number</label>
-                            <input type="text" name="phone_number" id="phone_number"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="08123456789" required="">
-                            @if ($errors->has('phone_number'))
-                                <span class="text-danger">
-                                    {{ $errors->first('phone_number') }}
-                                </span>
-                            @endif
-                        </div>
-                        <div class="mb-4">
-                            <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
-                            @if ($errors->has('password'))
-                                <span class="text-danger">
-                                    {{ $errors->first('password') }}
-                                </span>
-                            @endif
-                        </div>
-                        <div>
-                            <label for="password_confirmation"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
-                                password</label>
-                            <input type="password" name="password_confirmation" id="password_confirmation"
-                                placeholder="••••••••"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
-                            @if ($errors->has('password_confirmation'))
-                                <span class="text-danger">
-                                    {{ $errors->first('password_confirmation') }}
-                                </span>
-                            @endif
-                        </div>
-                        {{-- <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                <input id="terms" aria-describedby="terms" type="checkbox"
-                                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                                    required="">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label for="terms" class="font-light text-gray-500 dark:text-gray-300">I accept the <a
-                                        class="font-medium text-blue-600 hover:underline dark:text-blue-500" href="#">Terms
-                                        and Conditions</a></label>
-                            </div>
-                        </div> --}}
-                        <button type="submit"
-                            class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create
-                            an account</button>
-                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Already have an account? <a href="{{ route('reviewer.login') }}"
-                                class="font-medium text-blue-600 hover:underline dark:text-blue-500">Login here</a>
-                        </p>
-                    </form>
-                </div>
+    @include('layout.reviewer.header_before')
+
+    <main class="py-10 lg:py-0">
+        <div class="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <!-- Left -->
+            <div class="flex justify-center lg:block">
+                <img src="{{ asset('image/logo.svg') }}" alt="Liturtara Logo" class="max-w-full h-auto" />
+            </div>
+
+            <!-- Right -->
+            <div class="max-w-md w-full space-y-6 mx-auto">
+                @include('layout.alert-auth')
+                <img src="{{ asset('image/LogoLiturtara1.png') }}" alt="Liturtara" class="h-10 mb-2 mx-auto" />
+                <h2 class="text-2xl font-bold text-center">Sign Up Reviewer</h2>
+
+                <form id="registerForm" class="space-y-4" action="{{ route('reviewer.register.post') }}" method="POST">
+                    @csrf
+                    <input type="email" name="email" placeholder="Email"
+                        class="w-full border border-gray-300 p-3 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        required />
+                    @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+
+                    <input type="text" name="phone_number" placeholder="Phone number"
+                        class="w-full border border-gray-300 p-3 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        required />
+                    @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
+
+                    <input type="password" name="password" placeholder="Password"
+                        class="w-full border border-gray-300 p-3 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        required />
+                    @error('password') <span class="text-danger">{{ $message }}</span> @enderror
+
+                    <input type="password" name="password_confirmation" placeholder="Confirm Password"
+                        class="w-full border border-gray-300 p-3 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        required />
+                    @error('password_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
+
+                    <button type="submit" class="w-full bg-navy text-white p-3 rounded hover:bg-white">
+                        Register
+                    </button>
+
+                    <div class="space-y-2 text-sm">
+                        <label class="flex items-start gap-2">
+                            <input type="checkbox" required class="mt-1">
+                            Agree to <a href="#" class="underline text-navy">Terms & Conditions</a> and 
+                            <a href="#" class="underline text-navy">Privacy Policy</a>
+                        </label>
+                        <label class="flex items-start gap-2">
+                            <input type="checkbox" required class="mt-1">
+                            I agree to comply with the <strong>Personal Data Protection Law</strong>
+                        </label>
+                    </div>
+
+                    <a href="{{ route('google.login', ['role' => 'reviewer']) }}"
+                        class="flex items-center justify-center gap-3 w-full border p-3 rounded hover:bg-gray-100">
+                        <img src="{{ asset('image/google.svg') }}" alt="Google" class="h-5" /> Sign up with Google
+                    </a>
+
+                    <p class="text-sm text-center">Already have an account?
+                        <a href="{{ route('reviewer.login') }}" class="text-navy underline">Log in</a>
+                    </p>
+                </form>
             </div>
         </div>
-    </section>
+    </main>
+
+    @include('layout.footer')
 @endsection

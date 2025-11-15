@@ -24,41 +24,44 @@ class AuthController extends Controller
         return view('auth.email-verification');
     }
 
-    public function VerifyEmail(EmailVerificationRequest $request)
+    public function VerifyEmail($id, $hash)
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect($this->redirectToDashboard($request->user()));
+        $user = User::findOrFail($id);
+        // if ($user->hasVerifiedEmail()) {
+        //     return redirect($this->redirectToDashboard($user));
+        // }
+
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
         }
 
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
+        Auth::login($user);
 
-        return redirect($this->redirectToDashboard($request->user()))
+        return redirect('/')
             ->with('verified', true);
     }
 
     // resending email verification
-    public function VerifyHandler(Request $request)
-    {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect($this->redirectToDashboard($request->user()));
-        }
+    // public function VerifyHandler(Request $request)
+    // {
+    //     if ($request->user()->hasVerifiedEmail()) {
+    //         return redirect($this->redirectToDashboard($request->user()));
+    //     }
 
-        $request->user()->sendEmailVerificationNotification();
+    //     $request->user()->sendEmailVerificationNotification();
 
-        return back()->with('message', 'Verification link sent!');
-    }
+    //     return back()->with('message', 'Verification link sent!');
+    // }
 
-    protected function redirectToDashboard($user)
-    {
-        return match ($user->role) {
-            'case owner' => route('caseowner.dashboard'),
-            'talent' => route('talent.dashboard'),
-            'reviewer' => route('reviewer.dashboard'),
-            default => '/',
-        };
-    }
+    // protected function redirectToDashboard($user)
+    // {
+    //     return match ($user->role) {
+    //         'case owner' => route('caseowner.dashboard'),
+    //         'talent' => route('talent.dashboard'),
+    //         'reviewer' => route('reviewer.dashboard'),
+    //         default => '/',
+    //     };
+    // }
 
     // RESET PASSWORD
     public function PasswordEmail(Request $request)
@@ -124,10 +127,13 @@ class AuthController extends Controller
     public function RedirectToGoogle($role)
     {
         session()->put('role', $role);
+        // dd(session('role'));
+        // dd(Socialite::driver('google')->redirect());
         return Socialite::driver('google')->redirect();
     }
     public function HandleGoogleCallback()
     {
+        // dd('here');
         try {
             $googleUser = Socialite::driver('google')->user();
             $role = session('role');

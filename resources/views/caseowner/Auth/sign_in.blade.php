@@ -1,5 +1,6 @@
 @extends('layout.default')
 @section('title', 'Case Owner Sign In')
+
 @section('content')
     @include('layout.caseowner.header_before')
     <!-- Main Content -->
@@ -7,7 +8,7 @@
         <div class="flex flex-col md:flex-row items-center">
             <!-- Left Side with Image and Curved Design -->
             <div class="flex justify-center lg:block">
-                <img src="{{ asset('image/logo.svg') }}" alt="Liturtara Logo" class="max-w-full h-auto" />
+                <img src="{{ asset('image/logo_processed_by_imagy.svg') }}" alt="Liturtara Logo" class="max-w-full h-auto" />
             </div>
 
             <!-- Right Side with Login Form -->

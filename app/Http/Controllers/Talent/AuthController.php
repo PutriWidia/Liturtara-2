@@ -55,6 +55,11 @@ class AuthController extends Controller
                 "confirmed",
                 new StrongPassword()
             ],
+            [
+                'password.required' => 'Password is required',
+                'password.min' => 'Password must be at least 6 characters',
+                'password.confirmed' => 'Password confirmation does not match',
+            ]
         ]);
 
         $user = new User();
