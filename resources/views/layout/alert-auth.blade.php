@@ -10,4 +10,8 @@
     <div class="py-4 text-base font-medium text-navy">
         {{ session()->get('status') }}
     </div>
+@elseif (session()->has('verified'))
+    <div class="py-4 text-base font-medium text-green-500">
+        {{ session()->get('verified') }}
+    </div>
 @endif

@@ -29,7 +29,7 @@
                             <h3 class="text-xl font-semibold mb-2">{{ $item->title }}</h3>
                             <p class="text-gray-600 mb-4">{{ Str::limit($item->content, 120) }}</p>
 
-                            <a href="{{ route('news.new_details', ['id' => $item->news_id]) }}"
+                            <a href="{{ route('news.news_details', ['id' => $item->news_id]) }}"
                                class="inline-block bg-blue-900 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                                 Baca Selengkapnya
                             </a>

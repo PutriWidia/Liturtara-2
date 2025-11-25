@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Rules\StrongPassword;
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -64,7 +66,7 @@ class AuthController extends Controller
         $user->role = 'reviewer';
 
         if ($user->save()) {
-            event(new Registered($user));
+            Mail::to($user->email)->send(new VerifyEmail($user));
             Auth::login($user);
             return redirect()->route('reviewer.dashboard');
         }

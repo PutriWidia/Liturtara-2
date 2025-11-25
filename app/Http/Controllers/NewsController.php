@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\News;
@@ -88,9 +89,14 @@ class NewsController extends Controller
 
     public function detail($id)
     {
-    $news = News::findOrFail($id);
+        $news = News::findOrFail($id);
 
-    return view('news.new_details', compact('news'));
+        $content = Str::markdown($news->content); // ubah markdown → HTML
+
+        return view('news.news_details', [
+            'news' => $news,
+            'contentHtml' => $content,
+        ]);
     }
   
 }

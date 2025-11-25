@@ -21,6 +21,11 @@ class DashboardController extends Controller
             abort(403);
         }
 
+        // check verifberkasi jika masih kosong
+        // if ($user->is_verified == 0) {
+        //     return redirect()->route('talent.verify.file', ['role' => $user->role]);
+        // }
+
         $tab = $request->get('tab', 'case-list');
         $status = $request->input('status');
         $search = $request->input('search');

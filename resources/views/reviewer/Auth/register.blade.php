@@ -39,7 +39,7 @@
                         required />
                     @error('password_confirmation') <span class="text-danger">{{ $message }}</span> @enderror
 
-                    <button type="submit" class="w-full bg-navy text-white p-3 rounded hover:bg-white">
+                    <button type="submit" class="w-full bg-navy text-white p-3 rounded hover:bg-white hover:text-navy hover:border-2 hover:border-navy">
                         Register
                     </button>
 

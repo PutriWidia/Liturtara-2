@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="overflow-x-hidden" lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,7 @@
     <title>@yield('title', 'Liturtara')</title>
 </head>
 
-<body>
+<body class="overflow-x-hidden">
     @yield('content')
 </body>
 </html>

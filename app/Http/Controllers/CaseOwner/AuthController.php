@@ -9,6 +9,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\VerifyEmail;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends \App\Http\Controllers\AuthController
 {
@@ -25,14 +27,16 @@ class AuthController extends \App\Http\Controllers\AuthController
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
+        
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            // dd($user);
             if ($user->role !== 'case owner') {
                 Auth::logout();
                 return redirect()->route('caseowner.login')->with('error', 'Unauthorized role');
             }
-            event(new Registered($user));
+            Auth::login($user);
+            // event(new Registered($user));
             return redirect()->route('caseowner.dashboard');
         }
 
@@ -83,7 +87,7 @@ class AuthController extends \App\Http\Controllers\AuthController
                 'address' => null,
             ]);
 
-            event(new Registered($user));
+            Mail::to($user->email)->send(new VerifyEmail($user));
             Auth::login($user);
             return redirect()->route('caseowner.dashboard');
         }

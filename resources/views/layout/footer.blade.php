@@ -4,7 +4,8 @@
             <div class=""> <img src="{{ asset('image/logo-2.svg') }}" alt="Liturtara Logo" class="mb-5 h-16"> 
             {{-- <h2 class="text-lg text-white font-medium">PT. Literasi Jaya Nusantara</h2> --}} 
             <address class="w-7/12 not-italic text-sm my-5"> 
-                Jl. Geger Kalong Hilir, Sukasari, Kec. Sukasari, Kota Bandung, Jawa Barat 40152
+                Bandung, West Java
+                Indonesia
             </address>
             <div class="flex space-x-4 mt-20"> 
                 <a href="https://www.facebook.com/profile.php?id=61572316547988" target="_blank"><img src="{{ asset('image/facebook.svg') }}" alt="Facebook" class="h-10"></a> 

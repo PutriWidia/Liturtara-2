@@ -5,9 +5,11 @@
 <section class="py-16 bg-gray-50">
   <div class="container mx-auto px-6 md:px-12">
     <div class="bg-white shadow rounded-lg p-6">
+      @if ($news->image)
       <img src="{{ asset('storage/' . $news->image) }}" 
            alt="{{ $news->title }}" 
            class="w-full h-80 object-cover rounded-lg mb-6">
+      @endif
 
       <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ $news->title }}</h1>
       <p class="text-gray-600 leading-relaxed whitespace-pre-line">{{ $news->content }}</p>

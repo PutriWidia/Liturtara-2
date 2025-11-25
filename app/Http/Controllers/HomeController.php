@@ -10,9 +10,8 @@ class HomeController extends Controller
     public function index()
     {
         // Ambil 3 berita terbaru dari database
-        // $latestNews = News::latest()->take(3)->get();
-        $latestNews = News::latest()->get();
-
+        $latestNews = News::orderBy('date', 'desc')->take(3)->get();
+        return view('homepage', compact('latestNews'));
 
         // Kirim data berita ke view homepage.blade.php
         // return view('homepage', compact('latestNews'));

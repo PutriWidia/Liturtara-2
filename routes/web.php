@@ -34,7 +34,7 @@ Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // Route publik
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::get('/news/detail/{id}', [NewsController::class, 'detail'])->name('news.new_details');
+Route::get('/news/detail/{id}', [NewsController::class, 'detail'])->name('news.news_details');
 
 
 // Route admin / CRUD
@@ -92,6 +92,9 @@ Route::prefix('talent')->name('talent.')->group(function() {
         Route::get('/cases/search', [TalentCasesController::class, 'index'])->name('index');
         Route::post('/cases/{caseId}/proposal', [TalentCasesController::class, 'submitProposal'])->name('submitProposal');
         Route::get('/projects', [TalentCasesController::class, 'myProjects'])->name('myProjects');
+        // verifikasi file talent
+        Route::get('/verify/file/{role}', [AuthController::class, 'verifyFileForm'])->name('verify.file');
+        Route::post('/verify/file/{role}', [AuthController::class, 'submitVerifyFile'])->name('verify.file.submit');
     });
 });
 
@@ -152,7 +155,7 @@ Route::middleware('guest')->group(function(){
 // sign in using google account
 Route::middleware(['web'])->group(function () {
     Route::get('google/{role}', [AuthController::class, 'RedirectToGoogle'])->name('google.login');
-    Route::get('auth/google/callback', [AuthController::class, 'HandleGoogleCallback']);
+    Route::get('auth/google-callback', [AuthController::class, 'HandleGoogleCallback']);
 });
 
 // token top-up

@@ -138,7 +138,7 @@
         <div 
           class="bg-white p-6 rounded-2xl shadow-md w-64 hover:shadow-lg transition cursor-pointer"
           onclick="openModal('{{ $name }}', '{{ $role }}', '{{ $photo }}', `{{ $bio }}`)">
-          <img src="{{ asset($photo) }}" alt="{{ $name }}" class="w-32 h-32 object-cover rounded-xl mx-auto mb-4">
+          <img src="{{ asset($photo) }}?v={{ time() }}" alt="{{ $name }}" class="w-32 h-32 object-cover rounded-xl mx-auto mb-4">
           <h3 class="font-bold text-[#0a2e5c] text-lg">{{ $name }}</h3>
           <p class="text-gray-500 text-sm">{{ $role }}</p>
         </div>
