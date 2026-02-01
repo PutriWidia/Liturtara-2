@@ -12,6 +12,9 @@ use App\Http\Controllers\CaseOwner\AuthController as CaseOwnerAuthController;
 use App\Http\Controllers\CaseOwner\CasesController as CaseOwnerCasesController;
 use App\Http\Controllers\CaseOwner\DashboardController as CaseOwnerDashboardController;
 use App\Http\Controllers\CaseOwner\ReviewController as CaseOwnerReviewController;
+use App\Http\Controllers\CaseOwner\ProfileController;
+use App\Http\Controllers\CaseOwner\CaseController;
+use App\Http\Controllers\CasePublicationController;
 // Talent's controllers
 use App\Http\Controllers\Talent\CasesController as TalentCasesController;
 use App\Http\Controllers\Talent\AuthController as TalentAuthController;
@@ -30,11 +33,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-// Route::get('/', function(){
-//     return view('landing-page');
-// });
+Route::get('/contact', function () {
+    return view('contactus');
+})->name('contact');
 
-// Route publik
+Route::get('/privacy-policy', function () {
+    return view('privacypolicy');
+})->name('privacypolicy');
+
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/detail/{id}', [NewsController::class, 'detail'])->name('news.news_details');
 
@@ -73,9 +79,39 @@ Route::prefix('caseowner')->name('caseowner.')->group(function () {
     });
 });
 
-// GROUP ROUTE TALENT
+// PROFILE
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.photo');
+
+// Route::prefix('case')->name('case.')->group(function () {
+//     Route::get('/create/step-1', [CasePublicationController::class, 'form1'])->name('form1');
+//     Route::post('/create/step-1', [CasePublicationController::class, 'storeForm1'])->name('store.form1');
+
+//     Route::get('/create/step-2', [CaseController::class, 'form2'])->name('form2');
+//     Route::post('/create/step-2', [CaseController::class, 'storeForm2'])->name('store.form2');
+
+//     Route::get('/create/step-3', [CaseController::class, 'form3'])->name('form3');
+//     Route::post('/create/submit', [CaseController::class, 'submit'])->name('submit');
+// });
+
+
+Route::prefix('cases')->name('cases.')->group(function () {
+    Route::get('/sent', fn () => view('caseowner.sent'))->name('sent');
+    Route::get('/approved', fn () => view('caseowner.approved'))->name('approved');
+    Route::get('/inprogress', fn () => view('caseowner.inprogress'))->name('inprogress');
+    Route::get('/review', fn () => view('caseowner.review'))->name('review');
+    Route::get('/solved', fn () => view('caseowner.solved'))->name('solved');
+    Route::get('/rejected', fn () => view('caseowner.rejected'))->name('rejected');
+    Route::get('/detail/{id}', fn ($id) => view('caseowner.detail', compact('id')))->name('detail');
+});
+
+        // REVIEW SOLUSI
+// Route::get('/cases/{case}/review', [ReviewController::class, 'create'])->name('reviews.create');
+// Route::post('/cases/{case}/review', [ReviewController::class, 'store'])->name('reviews.store');
+
 Route::prefix('talent')->name('talent.')->group(function () {
-    // login
+
     Route::get('/login', [TalentAuthController::class, 'login'])->name('login');
     Route::post('/login', [TalentAuthController::class, 'loginPost'])->name('login.post');
     // regist
@@ -92,6 +128,7 @@ Route::prefix('talent')->name('talent.')->group(function () {
         Route::get('/cases', [TalentCasesController::class, 'listAvailableCases'])->name('availableCases');
         Route::get('/cases/search', [TalentCasesController::class, 'index'])->name('index');
         Route::post('/cases/{caseId}/proposal', [TalentCasesController::class, 'submitProposal'])->name('submitProposal');
+
         Route::get('/projects', [TalentCasesController::class, 'myProjects'])->name('myProjects');
         // verifikasi file talent
         Route::get('/verify/file/{role}', [AuthController::class, 'verifyFileForm'])->name('verify.file');
@@ -108,7 +145,6 @@ Route::prefix('talent')->name('talent.')->group(function () {
     });
 });
 
-// GROUP ROUTE REVIEWER
 Route::prefix('reviewer')->name('reviewer.')->group(function () {
     Route::get('/login', [ReviewerAuthController::class, 'login'])->name('login');
     Route::post('/login', [ReviewerAuthController::class, 'loginPost'])->name('login.post');
@@ -170,10 +206,22 @@ Route::middleware(['web'])->group(function () {
 
 Route::post('/midtrans-callback', [TopupController::class, 'callback'])->name('token.topup.callback');
 // token top-up
+
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [AuthController::class, 'VerifyNotice'])->name('verification.notice');
+    Route::post('/email/verification-notification', [AuthController::class, 'VerifyHandler'])
+        ->middleware(['throttle:6,1'])->name('verification.send');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::view('/forgot-password', 'auth.forgot-password')->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'PasswordEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'PasswordReset'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'PasswordUpdate'])->name('password.update');
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::post('/midtrans/callback', [TopUpController::class, 'callback'])->name('token.topup.callback');
     Route::get('/topup', [TopupController::class, 'showForm'])->name('token.topup.form');
     Route::post('/topup', [TopupController::class, 'checkout'])->name('token.topup.checkout');
     Route::get('/payment-success', [TopupController::class, 'success'])->name('token.topup.success');
-    // Route::get('/invoice/{id}', [TopupController::class, 'invoice']);
 });
