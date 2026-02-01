@@ -4,16 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TokenTransactions extends Model
+class DokTalent extends Model
 {
     protected $fillable = [
         'user_id',
-        'order_id',
-        'token_amount',
-        'total_price',
-        'status',
-        'payment_type',
-        'transaction_id',
+        'title',
+        'file_path'
     ];
 
     public function user()

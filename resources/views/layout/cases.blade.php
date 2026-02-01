@@ -66,7 +66,7 @@
                             Report
                         </button>
                         <button class="bg-navy text-white px-4 py-2 rounded-md flex items-center text-sm"
-                            {{-- onclick="handleCaseClick({{ $user->is_verified }}, '{{ $case->title }}')"> --}}>
+                            {{-- onclick="handleCaseClick('{{ $user->is_verified }}', '{{ $case->title }}')"> --}}>
                             View
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

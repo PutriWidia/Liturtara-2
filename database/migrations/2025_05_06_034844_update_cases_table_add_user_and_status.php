@@ -17,7 +17,8 @@ return new class extends Migration
             $table->dropForeign(['level_id']);
             $table->dropColumn('level_id');
             $table->integer('reward_token')->default(0)->after('description');
-            $table->enum('status', ['sent', 'approved', 'in_progress', 'solved', 'rejected'])->default('sent')->after('reward_token');
+            // $table->enum('status', ['sent', 'approved', 'in_progress', 'solved', 'rejected'])->default('sent')->after('reward_token');
+            $table->enum('status', ['Sent', 'Available', 'In-Progress', 'Completed', 'Cancelled', 'Expired'])->default('Sent')->after('reward_token');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('token_transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->enum('type', ['in', 'out']);
-            $table->integer('amount');
-            $table->text('description')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('order_id')->unique();
+            $table->integer('token_amount');
+            $table->integer('total_price'); // dalam Rupiah
+            $table->enum('status', ['pending', 'paid', 'failed'])->default('pending');
+            $table->string('payment_type')->nullable();
+            $table->string('transaction_id')->nullable(); // midtrans ID
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+
     }
 
     /**

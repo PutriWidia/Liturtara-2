@@ -63,12 +63,13 @@ class DashboardController extends Controller
 
         // Session point & token
         $userPoint = $user->userPoint;
-        $token = $user->tokens;
+        // $token = $user->tokens;
+        $tokenAmount = $user->tokens?->amount ?? 0;
 
-        session()->put('point', $userPoint->points);
-        session()->put('token', $token->amount);
+        session()->put('point', $userPoint->points ?? 0);
+        // session()->put('token', $token->token_amount);
         session()->put('role', $user->role);
 
-        return view('talent.dashboard', compact('cases', 'user', 'tab_view', 'status', 'search'));
+        return view('talent.dashboard', compact('cases', 'user', 'tab_view', 'status', 'search','tokenAmount'));
     }
 }

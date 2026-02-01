@@ -15,9 +15,9 @@
         Please Enjoy Liturtara's Service
     </h1>
 
-    <a href="{{ route("token.topup.form") }}"
+    <a href="{{ route("talent.dashboard") }}"
         class="mt-6 inline-block bg-navy hover:bg-blue-900 transition text-white font-medium px-6 py-3 rounded-lg">
-        Back
+        Back to Dashboard
     </a>
 </div>
 @include("layout.footer")

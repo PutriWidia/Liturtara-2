@@ -21,6 +21,10 @@ class DashboardController extends Controller
             abort(403);
         }
 
+        // if ($user->is_verified == 0) {
+        //     return redirect()->route('talent.verify.file', ['role' => $user->role]);
+        // }
+
         // Ambil query input
         $search = $request->input('search');
         $status = $request->input('status');
@@ -47,8 +51,8 @@ class DashboardController extends Controller
         $userPoint = $user->userPoint;
         $profile = $user->profile;
 
-        session()->put("token", $token->amount);
-        session()->put("point", $userPoint->points);
+        session()->put("token", $token->amount ?? 0);
+        session()->put("point", $userPoint->points ?? 0);
         session()->put("role", $user->role);
 
         return view('caseowner.dashboard', compact('cases', 'profile', 'search', 'status'));

@@ -55,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 
     public function certificates()
     {
-        return $this->hasMany(Certificate::class);
+        return $this->hasMany(DokTalent::class);
     }
 
     public function notifications()
@@ -88,9 +88,9 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->hasMany(Cases::class);
     }
 
-    public function profile()
+    public function profileTalent()
     {
-        return $this->hasOne(Profile::class);
+        return $this->hasOne(ProfileTalent::class, 'user_id');
     }
 
 }

@@ -167,8 +167,8 @@ class AuthController extends Controller
 
                 $user->tokens()->create(['amount' => 0]);
                 $user->userPoint()->create(['points' => 0, 'level' => 'Beginner']);
-                $user->profile()->create([
-                    'full_name' => '',
+                $user->profileTalent()->create([
+                    'full_name' => $googleUser->getName() ?? '',
                     'phone_number' => $user->phone_number,
                     'birth_date' => null,
                     'address' => null,

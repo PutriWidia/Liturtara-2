@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
@@ -15,6 +16,7 @@ use App\Http\Controllers\CaseOwner\ReviewController as CaseOwnerReviewController
 use App\Http\Controllers\Talent\CasesController as TalentCasesController;
 use App\Http\Controllers\Talent\AuthController as TalentAuthController;
 use App\Http\Controllers\Talent\DashboardController as TalentDashboardController;
+use App\Http\Controllers\Talent\ProfileTalentController as ProfileTalentController;
 // Reviewer's controllers
 use App\Http\Controllers\Reviewer\AuthController as ReviewerAuthController;
 use App\Http\Controllers\Reviewer\DashboardController as ReviewerDashboardController;
@@ -52,7 +54,7 @@ Route::get('/contact', function () {
 })->name('contact');
 
 // GROUP ROUTE CASEOWNER
-Route::prefix('caseowner')->name('caseowner.')->group(function() {
+Route::prefix('caseowner')->name('caseowner.')->group(function () {
     // login
     Route::get('/login', [CaseOwnerAuthController::class, 'login'])->name('login');
     Route::post('/login', [CaseOwnerAuthController::class, 'loginPost'])->name('login.post');
@@ -60,7 +62,7 @@ Route::prefix('caseowner')->name('caseowner.')->group(function() {
     Route::get('/register', [CaseOwnerAuthController::class, 'register'])->name('register');
     Route::post('/register', [CaseOwnerAuthController::class, 'registerPost'])->name('register.post');
 
-    Route::middleware(['auth', 'verified'])->group(function() {
+    Route::middleware(['auth', 'verified'])->group(function () {
         // dashboard
         Route::get('/dashboard', [CaseOwnerDashboardController::class, 'dashboard'])->name('dashboard');
         Route::get('/case/{caseId}/proposals', [CaseOwnerCasesController::class, 'viewProposals'])->name('caseowner.proposals');
@@ -69,11 +71,10 @@ Route::prefix('caseowner')->name('caseowner.')->group(function() {
         Route::get('/cases/{case}/review', [CaseOwnerReviewController::class, 'create'])->name('reviews.create');
         Route::post('/cases/{case}/review', [CaseOwnerReviewController::class, 'store'])->name('reviews.store');
     });
-
 });
 
 // GROUP ROUTE TALENT
-Route::prefix('talent')->name('talent.')->group(function() {
+Route::prefix('talent')->name('talent.')->group(function () {
     // login
     Route::get('/login', [TalentAuthController::class, 'login'])->name('login');
     Route::post('/login', [TalentAuthController::class, 'loginPost'])->name('login.post');
@@ -81,7 +82,7 @@ Route::prefix('talent')->name('talent.')->group(function() {
     Route::get('/register', [TalentAuthController::class, 'register'])->name('register');
     Route::post('/register', [TalentAuthController::class, 'registerPost'])->name('register.post');
 
-    Route::middleware(['auth', 'verified'])->group(function() {
+    Route::middleware(['auth', 'verified'])->group(function () {
         // dasboard
         Route::get('/dashboard', [TalentDashboardController::class, 'dashboard'])->name('dashboard');
         Route::get('/dashboard/case-list', [TalentDashboardController::class, 'dashboard'])->name('dashboard.case-list');
@@ -95,17 +96,26 @@ Route::prefix('talent')->name('talent.')->group(function() {
         // verifikasi file talent
         Route::get('/verify/file/{role}', [AuthController::class, 'verifyFileForm'])->name('verify.file');
         Route::post('/verify/file/{role}', [AuthController::class, 'submitVerifyFile'])->name('verify.file.submit');
+
+        Route::get('/profile', [ProfileTalentController::class, 'index'])->name('profile');
+        Route::post('/profile', [ProfileTalentController::class, 'store'])->name('profile.store');
+        
+        Route::post('/cv/upload', [ProfileTalentController::class, 'uploadCv'])->name('cv.upload');
+
+        Route::post('/certificate/upload', [ProfileTalentController::class, 'uploadCertificate'])->name('certificate.upload');
+
+        Route::delete('/certificate/{id}', [ProfileTalentController::class, 'deleteCertificate'])->name('certificate.delete');
     });
 });
 
 // GROUP ROUTE REVIEWER
-Route::prefix('reviewer')->name('reviewer.')->group(function() {
+Route::prefix('reviewer')->name('reviewer.')->group(function () {
     Route::get('/login', [ReviewerAuthController::class, 'login'])->name('login');
     Route::post('/login', [ReviewerAuthController::class, 'loginPost'])->name('login.post');
     Route::get('/register', [ReviewerAuthController::class, 'register'])->name('register');
     Route::post('/register', [ReviewerAuthController::class, 'registerPost'])->name('register.post');
 
-    Route::middleware(['auth', 'verified'])->group(function() {
+    Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [ReviewerDashboardController::class, 'index'])->name('dashboard');
     });
 });
@@ -116,7 +126,7 @@ Route::get('/privacy-policy', function () {
 
 
 // Global Logout
-Route::post('/logout', function(){
+Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
@@ -124,32 +134,32 @@ Route::post('/logout', function(){
 })->name('logout');
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'VerifyEmail'])
-->middleware(['signed'])->name('verification.verify');
+    ->middleware(['signed'])->name('verification.verify');
 // email verification
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     // email verification notice
     Route::get('/email/verify', [AuthController::class, 'VerifyNotice'])
-    ->name('verification.notice');
+        ->name('verification.notice');
 
     // email verification handler
 
     // resending email verification
     Route::post('/email/verification-notification', [AuthController::class, "VerifyHandler"])
-    ->middleware(['throttle:6,1'])->name('verification.send');
+        ->middleware(['throttle:6,1'])->name('verification.send');
 });
 
 // forgot password
-Route::middleware('guest')->group(function(){
+Route::middleware('guest')->group(function () {
     Route::view('/forgot-password', 'auth.forgot-password')
         ->name('password.request');
 
     Route::post('/forgot-password', [AuthController::class, "PasswordEmail"])
         ->name('password.email');
 
-    Route::get('/reset-password/{token}', [AuthController::class,"PasswordReset"])
+    Route::get('/reset-password/{token}', [AuthController::class, "PasswordReset"])
         ->name('password.reset');
 
-    Route::post('/reset-password', [AuthController::class,"PasswordUpdate"])->middleware('guest')->name('password.update');
+    Route::post('/reset-password', [AuthController::class, "PasswordUpdate"])->middleware('guest')->name('password.update');
 });
 
 // sign in using google account
@@ -158,8 +168,10 @@ Route::middleware(['web'])->group(function () {
     Route::get('auth/google-callback', [AuthController::class, 'HandleGoogleCallback']);
 });
 
+Route::post('/midtrans-callback', [TopupController::class, 'callback'])->name('token.topup.callback');
 // token top-up
-Route::middleware(['auth', 'verified'])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Route::post('/midtrans/callback', [TopUpController::class, 'callback'])->name('token.topup.callback');
     Route::get('/topup', [TopupController::class, 'showForm'])->name('token.topup.form');
     Route::post('/topup', [TopupController::class, 'checkout'])->name('token.topup.checkout');
     Route::get('/payment-success', [TopupController::class, 'success'])->name('token.topup.success');

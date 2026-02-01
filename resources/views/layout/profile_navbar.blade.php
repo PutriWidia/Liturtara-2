@@ -30,7 +30,7 @@
         @elseif (session("role") == "talent")
         <a href="{{ route("token.topup.form") }}">
             <button class="text-sm text-gray-700 hover:text-navy font-medium">
-                {{ auth()->user()->tokens->amount ?? 0 }} Token
+                {{ auth()->user()->token->amount ?? 0 }} Token
             </button>
         </a>
         @endif
@@ -104,23 +104,10 @@
         </div>
 
         <!-- Account Button -->
-        @if (session("role") == "talent")
-        <a href="{{ route("talent.profile") }}">
             <button
-                class="text-sm font-medium border-2 border-navy text-navy px-4 py-2 rounded-md hover:bg-navy hover:text-white">
+                class="text-sm font-medium border-2 border-navy text-navy px-4 py-2 rounded-md">
                 Account
-            </button>
-        </a>
-        @endif
-
-        <!-- logout Button -->
-        <form action="{{ route('logout') }}" method="post">
-            @csrf
-            <button type="submit"
-                class="text-sm font-medium px-4 py-2 bg-navy text-white rounded-md border-2 border-navy hover:bg-blue-900 hover:text-white hover:border-2 hover:border-blue-900">
-                Logout
-            </button>
-        </form>
+            </button
 
         <!-- Tombol Burger Menu (Mobile) -->
         <button id="menu-toggle" class="md:hidden text-navy focus:outline-none">
