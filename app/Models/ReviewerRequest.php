@@ -4,24 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class ReviewerRequest extends Model
 {
-    protected $fillable = [
+     protected $fillable = [
         'solution_id',
         'reviewer_id',
         'comment',
         'status',
-        'admin_note',
+        'admin_note'
     ];
 
+    // 🔗 reviewer (user)
     public function reviewer()
     {
         return $this->belongsTo(User::class, 'reviewer_id');
     }
 
-    // 🔗 ke solution
+    // 🔗 solution (INI YANG BIKIN ERROR)
     public function solution()
     {
-        return $this->belongsTo(Solution::class);
+        return $this->belongsTo(Solution::class, 'solution_id');
     }
 }

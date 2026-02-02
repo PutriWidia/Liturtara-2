@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use phpseclib3\File\ASN1\Maps\Certificate;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Models\ReportReview;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
@@ -92,5 +93,21 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return $this->hasOne(ProfileTalent::class, 'user_id');
     }
+    /**
+     * Laporan yang DIBUAT oleh user (sebagai pelapor)
+     */
+    public function reportsMade()
+    {
+        return $this->hasMany(ReportReview::class, 'reporter_id');
+    }
+
+    /**
+     * Laporan yang DITERIMA oleh user (sebagai terlapor)
+     */
+    public function reportsReceived()
+    {
+        return $this->hasMany(ReportReview::class, 'reported_user_id');
+    }
+
 
 }

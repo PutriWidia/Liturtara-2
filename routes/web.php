@@ -24,6 +24,15 @@ use App\Http\Controllers\Talent\ProfileTalentController as ProfileTalentControll
 use App\Http\Controllers\Reviewer\AuthController as ReviewerAuthController;
 use App\Http\Controllers\Reviewer\DashboardController as ReviewerDashboardController;
 
+// Superadmin controllers
+use App\Http\Controllers\SuperadminAuthController;
+use App\Http\Controllers\SuperadminProfileController;
+use App\Http\Controllers\Superadmin\NewsController as SuperadminNewsController;
+use App\Http\Controllers\SuperAdmin\LogActivityController;
+use App\Http\Controllers\Superadmin\ReviewerController;
+use App\Http\Controllers\Superadmin\ReportReviewController;
+use App\Http\Controllers\Superadmin\ReviewerReviewController;
+
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 
@@ -45,7 +54,7 @@ Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/detail/{id}', [NewsController::class, 'detail'])->name('news.news_details');
 
 
-// Route admin / CRUD
+// Route News CRUD
 Route::prefix('admin/news')->group(function () {
     Route::get('/', [NewsController::class, 'show'])->name('news.show');
     Route::get('/create', [NewsController::class, 'create'])->name('news.create');
@@ -154,7 +163,82 @@ Route::prefix('reviewer')->name('reviewer.')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [ReviewerDashboardController::class, 'index'])->name('dashboard');
     });
+
 });
+
+// GROUP ROUTE SUPERADMIN
+Route::prefix('superadmin')
+    ->name('superadmin.')
+    ->group(function () {
+
+        Route::get('/login', [SuperadminAuthController::class, 'showLogin'])
+            ->name('login');
+
+        Route::post('/login', [SuperadminAuthController::class, 'login'])
+            ->name('login.post');
+
+        Route::post('/logout', [SuperadminAuthController::class, 'logout'])
+            ->name('logout');
+
+        Route::middleware('superadmin')->group(function () {
+
+            // DASHBOARD
+            Route::get('/dashboard', [SuperadminAuthController::class, 'dashboard'])
+                ->name('dashboard');
+
+            // PROFILE
+            Route::get('/profile', [SuperadminProfileController::class, 'index'])
+                ->name('profile');
+
+            // PASSWORD
+            Route::get('/password/edit', [SuperadminProfileController::class, 'editPassword'])
+                ->name('password.edit');
+
+            Route::post('/password/update', [SuperadminProfileController::class, 'updatePassword'])
+                ->name('password.update');
+
+            // LOG ACTIVITY
+            Route::get('/log-activity', [LogActivityController::class, 'index'])
+                ->name('log-activity');
+
+            // NEWS
+            Route::get('/news', [SuperadminNewsController::class, 'index'])
+                ->name('news.index');
+
+            Route::post('/news', [SuperadminNewsController::class, 'store'])
+                ->name('news.store');
+
+            Route::put('/news/{news}', [SuperadminNewsController::class, 'update'])
+                ->name('news.update');
+
+            Route::delete('/news/{news}', [SuperadminNewsController::class, 'destroy'])
+                ->name('news.destroy');
+            
+            // APPROVE REVIEWER
+            Route::get('/review-approval', [ReviewerReviewController::class, 'index'])
+                ->name('review-approval.index');
+
+            Route::post('/review-approval/{id}/approve', [ReviewerReviewController::class, 'approve'])
+                ->name('review-approval.approve');
+
+            Route::post('/review-approval/{id}/reject', [ReviewerReviewController::class, 'reject'])
+                ->name('review-approval.reject');
+
+            // REPORT REVIEW
+            Route::get('/report-review', [ReportReviewController::class, 'index'])
+                ->name('report-review.index');
+
+            Route::post('/report-review/{id}/resolve', [ReportReviewController::class, 'resolve'])
+                ->name('report-review.resolve');
+
+            Route::post('/report-review/{id}/reject', [ReportReviewController::class, 'reject'])
+                ->name('report-review.reject');
+
+            Route::put('/report-review/{id}', [ReportReviewController::class, 'update'])
+                ->name('report-review.update');
+        });
+    });
+
 
 Route::get('/privacy-policy', function () {
     return view('privacypolicy');
