@@ -263,29 +263,25 @@
     <h2 class="text-3xl md:text-4xl font-bold text-navy">Our Partners</h2>
   </div>
 
-  <div class="w-full flex justify-center">
+  <div class="w-full">
     {{-- Baris pertama --}}
-    <div class="max-w-[1200px] overflow-x-auto pb-3 scrollbar-hide" style="scrollbar-width: none;"> <!--max-w-[1200px] untuk maksimal container yang dimunculkan-->
-      <div class="flex gap-6 flex-nowrap px-2">
-        @foreach ([
-          'image/telkom-university.jpg',
-          'image/telkom-university.jpg',
-          'image/telkom-university.jpg',
-          'image/telkom-university.jpg',
-          'image/telkom-university.jpg',
-          'image/telkom-university.jpg',
-          'image/telkom-university.jpg'
-        ] as $partner)
-          <div class="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex items-center justify-center min-w-[22rem] h-40">
-            <img src="{{ asset($partner) }}" alt="Partner Logo" class="object-contain max-h-28 max-w-full opacity-75 hover:opacity-100 transition">
-          </div>
-        @endforeach
-      </div>
+    <div class="flex justify-center flex-wrap gap-6">
+      @foreach ([
+        'image/telkom-university.jpg',
+        'image/telkom-university.jpg',
+        'image/telkom-university.jpg',
+        'image/telkom-university.jpg',
+        'image/telkom-university.jpg',
+        'image/telkom-university.jpg'
+      ] as $partner)
+        <div class="bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] flex items-center justify-center w-56 h-28">
+          <img src="{{ asset($partner) }}" alt="Partner Logo" class="object-contain max-h-20 max-w-full opacity-90 hover:opacity-100 transition">
+        </div>
+      @endforeach
     </div>
 
-
     {{-- Baris kedua (selang-seling) --}}
-    <!-- <div class="flex justify-center flex-wrap gap-6 mt-6 ml-28">
+    <div class="flex justify-center flex-wrap gap-6 mt-6 ml-28">
       @foreach ([
         'image/telkom-university.jpg',
         'image/telkom-university.jpg',
@@ -297,7 +293,7 @@
           <img src="{{ asset($partner) }}" alt="Partner Logo" class="object-contain max-h-20 max-w-full opacity-90 hover:opacity-100 transition">
         </div>
       @endforeach
-    </div> -->
+    </div>
   </div>
 </section>
 
@@ -410,27 +406,25 @@
                 @forelse ($latestNews as $news)
                     <div class="min-w-[300px] max-w-[320px] bg-white rounded-2xl shadow-md hover:shadow-xl transition overflow-hidden">
                         <div class="relative">
-                          @if ($news->image)
-                              <img src="{{ asset('storage/' . $news->image) }}"
-                                  alt="{{ $news->title }}"
-                                  class="w-full h-48 object-cover rounded-t-2xl">
-                          @endif
+                            <img src="{{ asset('storage/' . $news->image) }}"
+                                alt="{{ $news->title }}"
+                                class="w-full h-48 object-cover rounded-t-2xl">
                             <span class="absolute top-2 right-2 bg-white/90 text-gray-700 text-xs px-2 py-1 rounded-md">
                                 {{ \Carbon\Carbon::parse($news->date)->format('d F Y') }}
                             </span>
                         </div>
-                          <div class="p-4">
-                              <h3 class="font-semibold text-gray-800 text-base mb-1 line-clamp-2">
-                                  {{ $news->title }}
-                              </h3>
-                              <p class="text-sm text-gray-500 mb-2 line-clamp-3">
-                                  {{ $news->content }}
-                              </p>
-                              <a href="{{ route('news.news_details',['id' => $news->news_id]) }}"
-                                class="text-navy font-medium text-sm hover:underline">
-                                  Selengkapnya →
-                              </a>
-                          </div>
+                        <div class="p-4">
+                            <h3 class="font-semibold text-gray-800 text-base mb-1 line-clamp-2">
+                                {{ $news->title }}
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-2 line-clamp-3">
+                                {{ $news->content }}
+                            </p>
+                            <a href="{{ route('news.news_details',['id' => $news->news_id]) }}"
+                              class="text-navy font-medium text-sm hover:underline">
+                                Selengkapnya →
+                            </a>
+                        </div>
                     </div>
                 @empty
                     <p class="text-gray-500">Belum ada berita.</p>

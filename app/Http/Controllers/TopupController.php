@@ -104,7 +104,7 @@ class TopupController extends Controller
 
     public function success()
     {
-        return view('token.success');
+        return view('token.thank-payment');
     }
 
     // public function callback(Request $request)

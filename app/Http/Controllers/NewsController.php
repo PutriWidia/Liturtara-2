@@ -9,25 +9,28 @@ use App\Models\News;
 
 class NewsController extends Controller
 {
-    public function show(){
+    public function show()
+    {
         $listNews = News::All();
         return view('news.show', [
             'listNews' => $listNews
         ]);
     }
 
-    public function create(){
+    public function create()
+    {
         return view('news.create');
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             'title' => 'required|string',
             'image' => 'required|image|mimes:jpg,jpeg,png,heic|max:2048',
             'content' => 'required|string'
         ]);
 
-        if($validated){
+        if ($validated) {
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('news', 'public');
                 $validated['image'] = $path;
@@ -37,21 +40,23 @@ class NewsController extends Controller
         }
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $listNews = News::find($id);
         return view('news.edit', [
             'listNews' => $listNews
         ]);
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $validated = $request->validate([
             'title' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,heic|max:2048',
             'content' => 'required|string'
         ]);
 
-        if($validated){
+        if ($validated) {
             if ($request->file('foto')) {
                 if ($request->old_image) {
                     Storage::disk('public')->delete($request->old_image);
@@ -71,33 +76,44 @@ class NewsController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $listNews = News::find($id);
         Storage::disk('public')->delete($listNews->image);
         $listNews->delete();
         return redirect()->route('news.show');
     }
 
+
+    // public function index()
+    // {
+    //     $news = News::where('status', 'published')
+    //         ->latest()
+    //         ->paginate(6);
+    //     return view('news.index', compact('news'));
+    // }
+    // public function detail($id)
+    // {
+    //     $news = News::findOrFail($id);
+
+    //     $content = Str::markdown($news->content); // ubah markdown → HTML
+
+    //     return view('news.news_details', [
+    //         'news' => $news,
+    //         'contentHtml' => $content,
+    //     ]);
+    // }
+
     public function index()
     {
-        // Ambil berita terbaru, bisa ditambah pagination kalau mau
-        $news = News::latest()->paginate(6);
-    
-        // Kirim ke view publik 'news.news' (file: resources/views/news/news.blade.php)
-        return view('news.news', compact('news'));
+        $news = News::where('status', 'published')
+            ->latest()
+            ->paginate(6);
+        return view('news.index', compact('news'));
     }
-
     public function detail($id)
     {
         $news = News::findOrFail($id);
-
-        $content = Str::markdown($news->content); // ubah markdown → HTML
-
-        return view('news.news_details', [
-            'news' => $news,
-            'contentHtml' => $content,
-        ]);
+        return view('news.news_details', compact('news'));
     }
-  
 }
-

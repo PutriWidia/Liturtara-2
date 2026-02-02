@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
             'is_verified' => 1,
         ]);
 
-        $this->call([
-            ReviewerRequestSeeder::class,
-        ]);
+        // $this->call([
+        //     ReviewerRequestSeeder::class,
+        // ]);
     }
 }

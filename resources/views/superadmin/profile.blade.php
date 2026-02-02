@@ -42,7 +42,7 @@
 
             <!-- ACTION -->
             <div class="mt-8 flex justify-end">
-                <a href="{{ route('superadmin.password_edit') }}"
+                <a href="{{ route('superadmin.password.edit') }}"
                    class="bg-navy text-white px-5 py-2 rounded-md text-sm hover:bg-blue-800 transition">
                     Ubah Password
                 </a>

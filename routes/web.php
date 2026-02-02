@@ -37,6 +37,144 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 
 
+//==========Percobaan tampilan==============//
+
+// Route::get('/talent/solution-completed', function () {
+//     return view('talent.solution-completed');
+// })->name('talent.solution-completed');
+
+// Route::get('/talent/solution-expired', function () {
+//     return view('talent.solution-expired');
+// })->name('talent.solution-expired');
+
+// Route::get('/talent/solution-inprogress', function () {
+//     return view('talent.solution-inprogress');
+// })->name('talent.solution-inprogress');
+
+// Route::get('/talent/solution-review', function () {
+//     return view('talent.solution-review');
+// })->name('talent.solution-review');
+
+// Route::get('/talent/solution-waiting', function () {
+//     return view('talent.solution-waiting');
+// })->name('talent.solution-waiting');
+
+// Route::get('/talent/detail-review', function () {
+//     return view('talent.detail-review');
+// })->name('talent.detail-review');
+
+Route::get('/talent/detail', function () {
+    return view('talent.detail');
+})->name('talent.detail');
+
+Route::get('/talent/print-cert', function () {
+    return view('talent.print-cert');
+})->name('talent.print-cert');
+
+Route::get('/talent/thank-docs', function () {
+    return view('talent.thank-docs');
+})->name('talent.thank-docs');
+
+Route::get('/token/thank-payment', function () {
+    return view('token.thank-payment');
+})->name('token.thank-payment');
+
+Route::get('/token/topup', function () {
+    return view('token.topup');
+})->name('token.topup');
+
+
+Route::prefix('caseowner')->name('caseowner.')->group(function () {
+
+    Route::get('/detail1', function () {
+        return view('caseowner.docs-detail.detail1');
+    })->name('detail1');
+
+    Route::get('/detaildelete', function () {
+        return view('caseowner.docs-detail.detaildelete');
+    })->name('detaildelete');
+
+    Route::get('/done', function () {
+        return view('caseowner.docs-detail.done');
+    })->name('done');
+
+    Route::get('/draft', function () {
+        return view('caseowner.docs-detail.draft');
+    })->name('draft');
+
+    Route::get('/infoco', function () {
+        return view('caseowner.docs-detail.infoco');
+    })->name('infoco');
+
+    Route::get('/inreview', function () { 
+        return view('caseowner.docs-detail.inreview');
+    })->name('inreview');
+
+    Route::get('/pending', function () {
+        return view('caseowner.docs-detail.pending');
+    })->name('pending');
+
+    Route::get('/project', function () {
+        return view('caseowner.docs-detail.project');
+    })->name('project');
+
+    Route::get('/rejected', function () {
+        return view('caseowner.docs-detail.rejected');
+    })->name('rejected');
+
+    Route::get('/sort', function () { 
+        return view('caseowner.docs-detail.sort');
+    })->name('sort');
+
+    Route::get('/waiting', function () {
+        return view('caseowner.docs-detail.waiting');
+    })->name('waiting');
+
+    Route::get('/waitingtalent', function () {
+        return view('caseowner.docs-detail.waitingtalent');
+    })->name('waitingtalent');
+
+    // solution review
+    Route::get('/solution-review', function () {
+        return view('caseowner.solution-review.review');
+    })->name('solution-review');
+
+    Route::get('/reviewverify', function () {
+        return view('caseowner.solution-review.reviewverify');
+    })->name('reviewverify');
+
+    //top up token
+
+    Route::get('/creditplan', function () {
+        return view('caseowner.topup-token.creditplan');
+    })->name('creditplan');
+
+    //upload file
+
+    Route::get('/form1', function () {
+        return view('caseowner.upload-file.form1');
+    })->name('form1');
+
+    Route::get('/form2', function () {
+        return view('caseowner.upload-file.form2');
+    })->name('form2');
+
+    Route::get('/form3', function () {
+        return view('caseowner.upload-file.form3');
+    })->name('form3');
+
+    Route::get('/formdetail', function () {
+        return view('caseowner.upload-file.formdetail');
+    })->name('formdetail');
+});
+
+
+
+// =========================================================================================== //
+
+
+
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/homepage', [HomeController::class, 'index'])->name('homepage');
@@ -52,7 +190,6 @@ Route::get('/privacy-policy', function () {
 
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/detail/{id}', [NewsController::class, 'detail'])->name('news.news_details');
-
 
 // Route News CRUD
 Route::prefix('admin/news')->group(function () {
@@ -106,16 +243,16 @@ Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('
 
 
 Route::prefix('cases')->name('cases.')->group(function () {
-    Route::get('/sent', fn () => view('caseowner.sent'))->name('sent');
-    Route::get('/approved', fn () => view('caseowner.approved'))->name('approved');
-    Route::get('/inprogress', fn () => view('caseowner.inprogress'))->name('inprogress');
-    Route::get('/review', fn () => view('caseowner.review'))->name('review');
-    Route::get('/solved', fn () => view('caseowner.solved'))->name('solved');
-    Route::get('/rejected', fn () => view('caseowner.rejected'))->name('rejected');
-    Route::get('/detail/{id}', fn ($id) => view('caseowner.detail', compact('id')))->name('detail');
+    Route::get('/sent', fn() => view('caseowner.sent'))->name('sent');
+    Route::get('/approved', fn() => view('caseowner.approved'))->name('approved');
+    Route::get('/inprogress', fn() => view('caseowner.inprogress'))->name('inprogress');
+    Route::get('/review', fn() => view('caseowner.review'))->name('review');
+    Route::get('/solved', fn() => view('caseowner.solved'))->name('solved');
+    Route::get('/rejected', fn() => view('caseowner.rejected'))->name('rejected');
+    Route::get('/detail/{id}', fn($id) => view('caseowner.detail', compact('id')))->name('detail');
 });
 
-        // REVIEW SOLUSI
+// REVIEW SOLUSI
 // Route::get('/cases/{case}/review', [ReviewController::class, 'create'])->name('reviews.create');
 // Route::post('/cases/{case}/review', [ReviewController::class, 'store'])->name('reviews.store');
 
@@ -145,7 +282,7 @@ Route::prefix('talent')->name('talent.')->group(function () {
 
         Route::get('/profile', [ProfileTalentController::class, 'index'])->name('profile');
         Route::post('/profile', [ProfileTalentController::class, 'store'])->name('profile.store');
-        
+
         Route::post('/cv/upload', [ProfileTalentController::class, 'uploadCv'])->name('cv.upload');
 
         Route::post('/certificate/upload', [ProfileTalentController::class, 'uploadCertificate'])->name('certificate.upload');
@@ -163,7 +300,6 @@ Route::prefix('reviewer')->name('reviewer.')->group(function () {
     Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', [ReviewerDashboardController::class, 'index'])->name('dashboard');
     });
-
 });
 
 // GROUP ROUTE SUPERADMIN
@@ -191,7 +327,7 @@ Route::prefix('superadmin')
                 ->name('profile');
 
             // PASSWORD
-            Route::get('/password/edit', [SuperadminProfileController::class, 'editPassword'])
+            Route::get('/password_edit', [SuperadminProfileController::class, 'editPassword'])
                 ->name('password.edit');
 
             Route::post('/password/update', [SuperadminProfileController::class, 'updatePassword'])
@@ -213,16 +349,16 @@ Route::prefix('superadmin')
 
             Route::delete('/news/{news}', [SuperadminNewsController::class, 'destroy'])
                 ->name('news.destroy');
-            
+
             // APPROVE REVIEWER
-            Route::get('/review-approval', [ReviewerReviewController::class, 'index'])
-                ->name('review-approval.index');
+            // Route::get('/review-approval', [ReviewerReviewController::class, 'index'])
+            //     ->name('review-approval.index');
 
-            Route::post('/review-approval/{id}/approve', [ReviewerReviewController::class, 'approve'])
-                ->name('review-approval.approve');
+            // Route::post('/review-approval/{id}/approve', [ReviewerReviewController::class, 'approve'])
+            //     ->name('review-approval.approve');
 
-            Route::post('/review-approval/{id}/reject', [ReviewerReviewController::class, 'reject'])
-                ->name('review-approval.reject');
+            // Route::post('/review-approval/{id}/reject', [ReviewerReviewController::class, 'reject'])
+            //     ->name('review-approval.reject');
 
             // REPORT REVIEW
             Route::get('/report-review', [ReportReviewController::class, 'index'])

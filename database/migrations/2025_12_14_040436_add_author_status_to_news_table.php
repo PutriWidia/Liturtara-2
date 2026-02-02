@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::table('news', function (Blueprint $table) {
             $table->string('author')->nullable()->after('title');
-            $table->string('image')->nullable()->after('content');
             $table->string('status')->default('draft')->after('image');
         });
     }

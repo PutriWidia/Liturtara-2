@@ -15,7 +15,7 @@
         <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">About Us</a>
         <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Service</a>
         <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">News</a>
-        <a href="#" class="font-medium text-navy hover:text-blue-700 py-2 px-4">Our Contact</a>
+        <a href="#" class="font-mweedium text-navy hover:text-blue-700 py-2 px-4">Our Contact</a>
     </div>
 
     <!-- Account Button (Right Side) -->
@@ -24,7 +24,7 @@
         @if (session("role") == "case owner")
         <a href="{{ route("token.topup.form") }}">
             <button class="text-sm text-gray-700 hover:text-navy font-medium">
-                {{ auth()->user()->token->amount ?? 0 }} Token
+                {{ auth()->user()->tokens->amount ?? 0 }} Token
             </button>
         </a>
         @elseif (session("role") == "talent")

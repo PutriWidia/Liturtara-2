@@ -53,7 +53,7 @@
           <button class="border border-white text-white px-4 py-2 rounded-md hover:bg-green-500 hover:text-white transition">
             Download Template
           </button>
-          <button class="bg-blue-900 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition">
+          <button class="bg-blue-900 text-white px-4 py-2 rounded-md hover:bg-blue-800 transition"> <a href="{{ route('caseowner.form1') }}">
             Upload Case
           </button>
         </div>
